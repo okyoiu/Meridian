@@ -1,0 +1,57 @@
+# --- 1. Project Specific Data ---
+# NEVER upload massive OpenStreetMap files to GitHub
+*.osm
+*.pbf
+*.osm.pbf
+*.bz2
+*.graph
+data/*
+!data/.gitkeep
+
+# --- 2. CMake & Build Artifacts ---
+# Ignore the entire build directory so you don't upload compiled code
+build/
+backend/build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# --- 3. Compiled C++ Files ---
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.out
+*.app
+*.exe
+server
+
+# --- 4. macOS / OS Junk ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# --- 5. IDEs & Editors ---
+# Ignore VS Code workspace settings and temporary files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- 6. Frontend / Node.js (For later) ---
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
