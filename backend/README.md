@@ -5,8 +5,8 @@ The high-performance C++ backend for the Meridian pathfinding visualizer. This e
 ##  Current Status: Map Parsing (Phase 1)
 Currently implementing the **Two-Pass Parsing Strategy** to convert raw OSM database primitives into an in-memory graph.
 - [x] **Pass 1 (Way Scanner):** Successfully filtering out irrelevant data (buildings, trees) and identifying all valid road nodes.
-- [ ] **Pass 2 (Node Mapper):** Successfully extracting spatial coordinates (Latitude/Longitude) and mapping 64-bit global OSM IDs to tight 32-bit sequential array indices.
-- [ ] **Pass 3 (Edge Connections):** *Next up.* Connecting the nodes to build the final Adjacency List and calculating edge weights using the Haversine formula.
+- [x] **Pass 2 (Node Mapper):** Successfully extracting spatial coordinates (Latitude/Longitude) and mapping 64-bit global OSM IDs to tight 32-bit sequential array indices.
+- [x] **Pass 3 (Edge Connections):** *Next up.* Connecting the nodes to build the final Adjacency List and calculating edge weights using the Haversine formula.
 
 ## System Requirements & Dependencies
 
