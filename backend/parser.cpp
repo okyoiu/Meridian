@@ -30,6 +30,9 @@ double haversine_distance(double lat1, double lon1, double lat2, double lon2) {
     return EARTH_RADIUS_METERS * c; // Returns distance in meters
 }
 
+// should be delcared in the global memory-space now
+std::unordered_map<int64_t, uint32_t> global_to_internal_map;
+
 // Finding all the nodes that are part of a valid road network to location
 class WayScannerHandler : public osmium::handler::Handler 
 {
@@ -167,7 +170,6 @@ Graph parse_map_data(const std::string& file_path)
         
     // PASS 2: Extracting Coordinates and Building Node Array
     std::cout << "\nStarting Pass 2: Extracting spatial coordinates..." << std::endl;
-    std::unordered_map<int64_t, uint32_t> global_to_internal_map; // Created the map variable
     NodeMapperHandler pass2_handler(pass1_handler.valid_node_ids, map_graph.nodes, global_to_internal_map); // MODIFIED: Pass the new map as the third argument to Pass 2
     osmium::io::Reader reader2{file_path, osmium::osm_entity_bits::node}; // only reading "nodes"
     osmium::apply(reader2, pass2_handler);
