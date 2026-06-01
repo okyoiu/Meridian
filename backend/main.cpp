@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "parser.hpp"
+#include "router.hpp"
 
 // gateway entry for program
 int main() 
@@ -41,6 +42,25 @@ int main()
                   << last.osm_id 
                   << " | Lat: " << last.lat 
                   << " | Lon: " << last.lon << std::endl;
+    }
+    // --- ROUTING ENGINE TEST ---
+    std::cout << "\n--- Executing Dijkstra's Algorithm ---" << std::endl;
+        
+    // Boot up the router with our loaded map
+    Router router(road_network);
+    
+    // Let's find the absolute shortest path from Index 0 to the very last node
+    uint32_t start_node = 0;
+    uint32_t end_node = road_network.nodes.size() - 1;
+    
+    RouteResult route = router.find_shortest_path(start_node, end_node);
+    
+    if (route.found) {
+        std::cout << ">> SUCCESS: Optimal Path Found! <<" << std::endl;
+        std::cout << "Total driving distance: " << route.total_distance_meters / 1000.0 << " kilometers" << std::endl;
+        std::cout << "Intersections crossed: " << route.path_indices.size() << std::endl;
+    } else {
+        std::cout << ">> FAIL: Destination is unreachable from origin. <<" << std::endl;
     }
 
     return 0;

@@ -29,7 +29,7 @@ if(NOT PROTOZERO_INCLUDE_DIR)
 endif()
 
 # Defining executable
-add_executable(server main.cpp parser.cpp)
+add_executable(server main.cpp parser.cpp router.cpp)
 
 # Including directories
 target_include_directories(server PRIVATE 
