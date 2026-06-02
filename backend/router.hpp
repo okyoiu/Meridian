@@ -20,6 +20,7 @@ class Router {
         // Dijkstra !! function
         RouteResult find_shortest_path(uint32_t start_index, uint32_t end_index);
 
+        uint32_t find_nearest_node(double lat, double lon); // This will be O(n)
     private:
         const Graph& map_graph;
 };

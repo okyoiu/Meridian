@@ -31,4 +31,6 @@ struct Graph
 // Function declaration to parse the file for information
 Graph parse_map_data(const std::string& file_path);
 
+double haversine_distance(double lat1, double lon1, double lat2, double lon2);
+
 #endif // END_OF PARSER_HPP

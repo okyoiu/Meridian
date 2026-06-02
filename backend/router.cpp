@@ -105,3 +105,20 @@ RouteResult Router::find_shortest_path(uint32_t start_index, uint32_t end_index)
     std::cout << "Route calculated successfully!" << std::endl;
     return result;
 }
+
+uint32_t Router::find_nearest_node(double lat, double lon) {
+    uint32_t best_index = 0;
+    double min_distance = std::numeric_limits<double>::max();
+
+    // we are going to scan 1.4 million nodes to find the closest one to the mouse click on Frontend
+    for (uint32_t i = 0; i < map_graph.nodes.size(); ++i) {
+        double dist = haversine_distance(lat, lon, map_graph.nodes[i].lat, map_graph.nodes[i].lon);
+
+        if (dist < min_distance) {
+            min_distance = dist;
+            best_index = i;
+        }
+    }
+
+    return best_index;
+}
