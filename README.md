@@ -1,59 +1,36 @@
-# OSM Pathfinding Visualizer
+# Meridian: True pathfinding, powered by C++ microservices.
 
-An interactive, web-based map browser (similar to Google Maps) that visualize real-world pathfinding algorithms on OpenStreetMap data.
+![Meridian Map Screenshot](frontend/assets/MERIDIAN_DEMO.png) 
+*Drop a pin, calculate the math, find the route.*
 
----
+## What is Meridian?
+Meridian is a custom, full-stack routing engine built from scratch. It parses real-world OpenStreetMap (OSM) data for the city of Austin, Texas, holding 1.4 million nodes in memory to calculate the true shortest physical path between any two intersections. 
 
-## Goal
+Instead of relying on third-party routing APIs, Meridian does the math on bare metal using a custom implementation of Dijkstra's Algorithm, exposed to the web via a C++ microservice.
 
-Click two points on the map and watch for the routing algorithm to find a path in real time. The visualizer streams each step of the alogirhtm so that you can see where the search had expanded to. From there, the nodes being explored will find a final route, which would be displayed.
+## Under the Hood
+This project was built to bridge the gap between low-level systems engineering and modern web architecture.
+* **The Engine (Backend):** C++17, utilizing `libosmium` to parse raw map data and `Crow` to handle multithreaded REST API requests.
+* **The Visualizer (Frontend):** React (Vite) and `Leaflet.js` for interactive, dynamic map rendering.
+* **The Math:** Haversine formula for spatial distance, and an optimized graph adjacency list for $O(V + E \log V)$ pathfinding.
 
-Supports switching between algorithms mid-session to compare how each one behaves on the same graph.
+## How to Run It Locally
+You will need two terminal windows to run the microservice architecture.
 
----
-
-## Current Stack
-
-This is a current idea of what I'm planning to use, as such, things may be subject to change during development.
-
-| Layer | Technology |
-|---|---|
-| Frontend | React + TypeScript + Vite |
-| Map rendering | Mapbox GL / Leaflet |
-| Backend | C++ (Crow HTTP server) |
-| Routing algorithms | Dijkstra's, A*, Bidirectional A* |
-| Map data | OpenStreetMap (PBF via libosmium) |
-| Deployment | Vercel (frontend) · Fly.io (backend) |
-
----
-
-## Algorithms Planned
-
-- **Dijkstra's** — explores all directions equally; guaranteed shortest path
-- **A\*** — uses straight-line distance as a heuristic to guide the search; faster than Dijkstra's
-- **Bidirectional A\*** — runs two simultaneous searches from both ends; meets in the middle
-The visualization makes the difference between these tangible — you can see A* explore significantly fewer nodes than Dijkstra's on the same route.
-
-## Running locally
- 
-**Prerequisites:** CMake, a C++17 compiler, Node.js 18+
- 
+### 1. Boot the C++ Backend
+The server needs to parse the map data and open Port 8080.
 ```bash
-# 1. Download an OSM extract (example: Austin, TX ~60 MB)
-#    https://download.geofabrik.de/north-america/us/texas.html
- 
-# 2. Build and start the backend
 cd backend
-cmake -B build && cmake --build build
-./build/server --data ../data/austin.osm.pbf
- 
-# 3. Start the frontend (in a separate terminal)
-cd frontend
-npm install && npm run dev
+cmake -B build
+cmake --build build && ./build/server
 ```
- 
-Open `http://localhost:5173`.
- 
----
- 
-*More information will be added throughout development*
+
+### 2. Start the Frontend Server
+Once the backend says `API LIVE`, run the following:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Once you open the given link on the terminal. Click anywhere in Austin to drop a Start pin, then click again to drop an End pin, and watch as it draws the path.
