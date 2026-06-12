@@ -34,3 +34,9 @@ npm run dev
 ```
 
 Once you open the given link on the terminal. Click anywhere in Austin to drop a Start pin, then click again to drop an End pin, and watch as it draws the path.
+
+## Video Demo
+
+
+https://github.com/user-attachments/assets/821fe188-156f-4701-b86c-b7a0fbc3cae0
+
