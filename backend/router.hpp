@@ -3,12 +3,14 @@
 
 #include "parser.hpp"
 #include <vector>
+#include <cstdint>
 
 // A struct for holding the final calculated given path
 struct RouteResult {
     double total_distance_meters;
     std::vector<uint32_t> path_indices; // the sequence of internal node IDs to drive thru
     bool found; // `True` if a path exists, else false if unreachable
+    uint32_t nodes_visited = 0; // added line for front-end check
 };
 
 // The routing engine class (where the magic happens)

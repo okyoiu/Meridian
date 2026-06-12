@@ -46,6 +46,7 @@ class WayScannerHandler : public osmium::handler::Handler
             const char* highway_tag = current_way.tags().get_value_by_key("highway");
 
             // If the highway is not `null`, then the way is valid
+            //! NOTE: ATTEMPT TO REMOVE PEDESTRIAN TAGS AS WELL
             if (highway_tag != nullptr) {
                 // for each node, its unique ID is added to valid_node_ids set
                 for (const auto& node_ref : current_way.nodes()) {

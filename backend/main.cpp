@@ -25,18 +25,18 @@ int main()
     // declaring the graph outside so that it runs for the whole program
     Graph road_network;
 
-    auto load_start = high_resolution_clock::now();
+    auto load_start = std::chrono::high_resolution_clock::now();
 
     try {
         road_network = parse_map_data(data_path);
 
-        auto load_end = high_resolution_clock::now();
-        auto load_duration = duration_cast<miliseconds>(load_end - load_start).count();
+        auto load_end = std::chrono::high_resolution_clock::now();
+        auto load_duration = std::chrono::duration_cast<std::chrono::milliseconds>(load_end - load_start).count();
 
         std::cout << "\n--- MAP LOADING COMPLETE ---" << std::endl;
         std::cout << "Total Nodes Loaded: " << road_network.nodes.size() << std::endl;
         std::cout << "Total Adjacency Lists: " << road_network.adjList.size() << std::endl;
-        std::cout << "Load Time: " << load_duration << " ms" << std::end;
+        std::cout << "Load Time: " << load_duration << " ms" << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Error Loading map data: " << e.what() << std::endl;
         return 1;
@@ -79,7 +79,7 @@ int main()
         double end_lon = std::stod(end_lon_param);
         
         // starting the timer to the entire route computation
-        auto route_start = high_resolution_clock::now();
+        auto route_start = std::chrono::high_resolution_clock::now();
 
         // 2. Find the closest actual roads to the mouse clicks!
         uint32_t start_index = router.find_nearest_node(start_lat, start_lon);
@@ -88,14 +88,15 @@ int main()
         // 3. Execute Dijkstra!
         RouteResult route = router.find_shortest_path(start_index, end_index);
         // fix: ending the timing
-        auto route_end = high_resolution_clock::now();
-        auto duration_ms = duration_cast<microseconds>(route_end - route_start).count() / 1000.0;
+        auto route_end = std::chrono::high_resolution_clock::now();
+        double duration_ms = std::chrono::duration_cast<std::chrono::microseconds>(route_end - route_start).count() / 1000.0;
+
         if (!route.found) return crow::response(404, "No path exists.");
 
         // 4. Serialize to JSON
         json response_json;
         response_json["distance_meters"] = route.total_distance_meters;
-        response_json["duration_ms"] = round(duration_ms * 100) / 100; // NEW: 2 decimal places
+        response_json["duration_ms"] = round(duration_ms * 100) / 100; // 2 decimal places
         response_json["nodes_visited"] = route.nodes_visited; 
 
         json geometry = json::array();

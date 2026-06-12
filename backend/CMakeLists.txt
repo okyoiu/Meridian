@@ -26,7 +26,7 @@ add_executable(server main.cpp parser.cpp router.cpp)
 
 # Including directories
 target_include_directories(server PRIVATE 
-${OSMIUM_INCLUDE_DIR} 
+    ${OSMIUM_INCLUDE_DIR} 
     ${PROTOZERO_INCLUDE_DIR} 
     ${EXPAT_INCLUDE_DIRS} 
     ${ZLIB_INCLUDE_DIRS}

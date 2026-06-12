@@ -27,6 +27,7 @@ RouteResult Router::find_shortest_path(uint32_t start_index, uint32_t end_index)
     RouteResult result;
     result.found = false;
     result.total_distance_meters = 0.0;
+    result.nodes_visited = 0; // bc of new counter added
 
     uint32_t num_nodes = map_graph.nodes.size();
     if (start_index >= num_nodes || end_index >= num_nodes) { // checking if graph is invalid
@@ -56,20 +57,17 @@ RouteResult Router::find_shortest_path(uint32_t start_index, uint32_t end_index)
     // the algorithm start here
     while (!min_heap.empty()) {
         QueueElement current = min_heap.top();
-        min_heap.pop();
-
-        // for easier syntax (just to keep it simple)
-        uint32_t u = current.node_index;
-
+        min_heap.pop();  
+        
+        uint32_t u = current.node_index;  
         if (u == end_index) {
-            break; // leaves if we found shortest path already
+            break;
+        }  
+        if (current.distance > distances[u]) {
+            continue;
         }
-
-        // if we pull an old, longer distance from the heap, then ignore it
-        if (current.distance > distances[u]) { // reminder: distances[u] is the shortest distance to node `u` that has been seen so far
-            continue; // so we continue as long as we can find the shortest path node is found
-        }
-
+        result.nodes_visited++;  //  count each processed node
+            
         // check all neighborint intersections
         for (const Edge& edge : map_graph.adjList[u]) {
             uint32_t v = edge.to;
